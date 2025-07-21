@@ -26,6 +26,7 @@ We offer the following libraries you can use to interact with the Kagi API. Thes
 
 - [Golang](https://github.com/kagisearch/kagi-api-golang)
 - [Python](https://github.com/kagisearch/kagi-api-python)
+- [Rust](https://github.com/kagisearch/kagi-api-rust)
 
 ### Unofficial Client Libraries
 
