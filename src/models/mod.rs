@@ -24,6 +24,8 @@ pub mod search_object_thumbnail;
 pub use self::search_object_thumbnail::SearchObjectThumbnail;
 pub mod search_request;
 pub use self::search_request::SearchRequest;
+pub mod search_request_lens;
+pub use self::search_request_lens::SearchRequestLens;
 pub mod search_result;
 pub use self::search_result::SearchResult;
 pub mod search_result_image;
