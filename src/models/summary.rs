@@ -11,21 +11,21 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-/// Summary : A summary of the text or url provided
+/// Summary : A response to the summarize request. Contains both a metadata section that contains information about the response, and a data section that contains the actual summary.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Summary {
-    #[serde(rename = "meta")]
-    pub meta: models::Meta,
-    #[serde(rename = "data")]
-    pub data: Box<models::SummaryData>,
+    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
+    pub meta: Option<models::Meta>,
+    #[serde(rename = "data", skip_serializing_if = "Option::is_none")]
+    pub data: Option<Box<models::SummaryData>>,
 }
 
 impl Summary {
-    /// A summary of the text or url provided
-    pub fn new(meta: models::Meta, data: models::SummaryData) -> Summary {
+    /// A response to the summarize request. Contains both a metadata section that contains information about the response, and a data section that contains the actual summary.
+    pub fn new() -> Summary {
         Summary {
-            meta,
-            data: Box::new(data),
+            meta: None,
+            data: None,
         }
     }
 }

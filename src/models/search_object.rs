@@ -20,11 +20,11 @@ pub struct SearchObject {
     #[serde(rename = "rank", skip_serializing_if = "Option::is_none")]
     pub rank: Option<i32>,
     /// URL of the resource identified in the search result.
-    #[serde(rename = "url")]
-    pub url: String,
+    #[serde(rename = "url", skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
     /// Title of the search result. This can be taken from the title of the html document, or the title of a media resource.
-    #[serde(rename = "title")]
-    pub title: String,
+    #[serde(rename = "title", skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
     /// a short desciption, or summary, of the content.
     #[serde(rename = "snippet", skip_serializing_if = "Option::is_none")]
     pub snippet: Option<String>,
@@ -38,12 +38,12 @@ pub struct SearchObject {
 }
 
 impl SearchObject {
-    pub fn new(url: String, title: String) -> SearchObject {
+    pub fn new() -> SearchObject {
         SearchObject {
             t: None,
             rank: None,
-            url,
-            title,
+            url: None,
+            title: None,
             snippet: None,
             published: None,
             thumbnail: None,

@@ -17,7 +17,7 @@ pub enum TranslateRequestText {
     /// Text content to translate
     String(String),
     /// Array of text snippets for batch translation. Using this method is recommended for translating multiple texts as it's faster and allows for context-aware translations across snippets.
-    Array(Vec<String>),
+    ArrayVecString(Vec<String>),
 }
 
 impl Default for TranslateRequestText {

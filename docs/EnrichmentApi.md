@@ -19,7 +19,7 @@ Get enriched search results
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **q** | **String** | Query to enrich | [required] |
-**r#type** | **String** | Enrich with 'web' results or 'news' results | [required] |[default to web]
+**r#type** | **String** | Enrich a search query with results pulled from Kagi indexes. | [required] |[default to web]
 
 ### Return type
 

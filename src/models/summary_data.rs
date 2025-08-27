@@ -11,19 +11,23 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+/// SummaryData : The actual summary response.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SummaryData {
-    #[serde(rename = "output")]
-    pub output: String,
-    #[serde(rename = "tokens")]
-    pub tokens: i32,
+    /// Contains the summary text.
+    #[serde(rename = "output", skip_serializing_if = "Option::is_none")]
+    pub output: Option<String>,
+    /// A count of how many tokens were used to perform the summary.
+    #[serde(rename = "tokens", skip_serializing_if = "Option::is_none")]
+    pub tokens: Option<i32>,
 }
 
 impl SummaryData {
-    pub fn new(output: String, tokens: i32) -> SummaryData {
+    /// The actual summary response.
+    pub fn new() -> SummaryData {
         SummaryData {
-            output,
-            tokens,
+            output: None,
+            tokens: None,
         }
     }
 }

@@ -15,8 +15,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SearchObjectThumbnail {
     /// URL of the thumbnail
-    #[serde(rename = "url")]
-    pub url: String,
+    #[serde(rename = "url", skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
     /// hight of the thumbnail
     #[serde(rename = "height", skip_serializing_if = "Option::is_none")]
     pub height: Option<i32>,
@@ -27,9 +27,9 @@ pub struct SearchObjectThumbnail {
 
 impl SearchObjectThumbnail {
     /// A small image that can be displayed along side the serach result.
-    pub fn new(url: String) -> SearchObjectThumbnail {
+    pub fn new() -> SearchObjectThumbnail {
         SearchObjectThumbnail {
-            url,
+            url: None,
             height: None,
             width: None,
         }

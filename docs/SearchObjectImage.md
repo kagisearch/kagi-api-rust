@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**url** | **String** | URL of the image | 
+**url** | Option<**String**> | URL of the image | [optional]
 **height** | Option<**i32**> | hight of the image | [optional]
 **width** | Option<**i32**> | width of the image | [optional]
 

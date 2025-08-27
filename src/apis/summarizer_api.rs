@@ -34,25 +34,25 @@ pub enum SummarizeUrlError {
 
 pub async fn summarize_text(configuration: &configuration::Configuration, upload_text: models::UploadText, engine: Option<&str>, summary_type: Option<&str>, target_language: Option<&str>, cache: Option<bool>) -> Result<models::Summary, Error<SummarizeTextError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_upload_text = upload_text;
-    let p_engine = engine;
-    let p_summary_type = summary_type;
-    let p_target_language = target_language;
-    let p_cache = cache;
+    let p_body_upload_text = upload_text;
+    let p_query_engine = engine;
+    let p_query_summary_type = summary_type;
+    let p_query_target_language = target_language;
+    let p_query_cache = cache;
 
     let uri_str = format!("{}/summarize", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
 
-    if let Some(ref param_value) = p_engine {
+    if let Some(ref param_value) = p_query_engine {
         req_builder = req_builder.query(&[("engine", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_summary_type {
+    if let Some(ref param_value) = p_query_summary_type {
         req_builder = req_builder.query(&[("summary_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_target_language {
+    if let Some(ref param_value) = p_query_target_language {
         req_builder = req_builder.query(&[("target_language", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cache {
+    if let Some(ref param_value) = p_query_cache {
         req_builder = req_builder.query(&[("cache", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -66,7 +66,7 @@ pub async fn summarize_text(configuration: &configuration::Configuration, upload
         };
         req_builder = req_builder.header("Authorization", value);
     };
-    req_builder = req_builder.json(&p_upload_text);
+    req_builder = req_builder.json(&p_body_upload_text);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -95,28 +95,28 @@ pub async fn summarize_text(configuration: &configuration::Configuration, upload
 
 pub async fn summarize_url(configuration: &configuration::Configuration, url: &str, engine: Option<&str>, summary_type: Option<&str>, target_language: Option<&str>, cache: Option<bool>) -> Result<models::Summary, Error<SummarizeUrlError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_url = url;
-    let p_engine = engine;
-    let p_summary_type = summary_type;
-    let p_target_language = target_language;
-    let p_cache = cache;
+    let p_query_url = url;
+    let p_query_engine = engine;
+    let p_query_summary_type = summary_type;
+    let p_query_target_language = target_language;
+    let p_query_cache = cache;
 
     let uri_str = format!("{}/summarize", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_engine {
+    if let Some(ref param_value) = p_query_engine {
         req_builder = req_builder.query(&[("engine", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_summary_type {
+    if let Some(ref param_value) = p_query_summary_type {
         req_builder = req_builder.query(&[("summary_type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_target_language {
+    if let Some(ref param_value) = p_query_target_language {
         req_builder = req_builder.query(&[("target_language", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_cache {
+    if let Some(ref param_value) = p_query_cache {
         req_builder = req_builder.query(&[("cache", &param_value.to_string())]);
     }
-    req_builder = req_builder.query(&[("url", &p_url.to_string())]);
+    req_builder = req_builder.query(&[("url", &p_query_url.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

@@ -82,7 +82,7 @@ pub enum TranslateWordInsightsError {
 /// Translates text between languages with customizable options for gender, formality, and style. Supports both single text translation and efficient batch translation of multiple text snippets with context awareness.
 pub async fn translate(configuration: &configuration::Configuration, translate_request: models::TranslateRequest) -> Result<models::Translate200Response, Error<TranslateError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_translate_request = translate_request;
+    let p_body_translate_request = translate_request;
 
     let uri_str = format!("{}/api/translate", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -93,7 +93,7 @@ pub async fn translate(configuration: &configuration::Configuration, translate_r
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_translate_request);
+    req_builder = req_builder.json(&p_body_translate_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -123,13 +123,13 @@ pub async fn translate(configuration: &configuration::Configuration, translate_r
 /// Provides alternative translation options for a given text with explanations. Supports two modes: standard mode (alternatives for a full translation) and partial mode (alternative ways to phrase a specific part of a translation).
 pub async fn translate_alternatives(configuration: &configuration::Configuration, original_text: &str, existing_translation: &str, target_lang: &str, source_lang: Option<&str>, target_explanation_language: Option<&str>, translation_options: Option<&str>, partial_translation: Option<&str>) -> Result<models::TranslateAlternatives200Response, Error<TranslateAlternativesError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_original_text = original_text;
-    let p_existing_translation = existing_translation;
-    let p_target_lang = target_lang;
-    let p_source_lang = source_lang;
-    let p_target_explanation_language = target_explanation_language;
-    let p_translation_options = translation_options;
-    let p_partial_translation = partial_translation;
+    let p_form_original_text = original_text;
+    let p_form_existing_translation = existing_translation;
+    let p_form_target_lang = target_lang;
+    let p_form_source_lang = source_lang;
+    let p_form_target_explanation_language = target_explanation_language;
+    let p_form_translation_options = translation_options;
+    let p_form_partial_translation = partial_translation;
 
     let uri_str = format!("{}/alternative-translations", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -141,19 +141,19 @@ pub async fn translate_alternatives(configuration: &configuration::Configuration
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     let mut multipart_form = reqwest::multipart::Form::new();
-    multipart_form = multipart_form.text("original_text", p_original_text.to_string());
-    multipart_form = multipart_form.text("existing_translation", p_existing_translation.to_string());
-    if let Some(param_value) = p_source_lang {
+    multipart_form = multipart_form.text("original_text", p_form_original_text.to_string());
+    multipart_form = multipart_form.text("existing_translation", p_form_existing_translation.to_string());
+    if let Some(param_value) = p_form_source_lang {
         multipart_form = multipart_form.text("source_lang", param_value.to_string());
     }
-    multipart_form = multipart_form.text("target_lang", p_target_lang.to_string());
-    if let Some(param_value) = p_target_explanation_language {
+    multipart_form = multipart_form.text("target_lang", p_form_target_lang.to_string());
+    if let Some(param_value) = p_form_target_explanation_language {
         multipart_form = multipart_form.text("target_explanation_language", param_value.to_string());
     }
-    if let Some(param_value) = p_translation_options {
+    if let Some(param_value) = p_form_translation_options {
         multipart_form = multipart_form.text("translation_options", param_value.to_string());
     }
-    if let Some(param_value) = p_partial_translation {
+    if let Some(param_value) = p_form_partial_translation {
         multipart_form = multipart_form.text("partial_translation", param_value.to_string());
     }
     req_builder = req_builder.multipart(multipart_form);
@@ -186,7 +186,7 @@ pub async fn translate_alternatives(configuration: &configuration::Configuration
 /// Detects the language of the provided text.
 pub async fn translate_detect(configuration: &configuration::Configuration, translate_detect_request: models::TranslateDetectRequest) -> Result<models::TranslateDetect200Response, Error<TranslateDetectError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_translate_detect_request = translate_detect_request;
+    let p_body_translate_detect_request = translate_detect_request;
 
     let uri_str = format!("{}/api/detect", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -197,7 +197,7 @@ pub async fn translate_detect(configuration: &configuration::Configuration, tran
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_translate_detect_request);
+    req_builder = req_builder.json(&p_body_translate_detect_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -227,7 +227,7 @@ pub async fn translate_detect(configuration: &configuration::Configuration, tran
 /// Provides dictionary definitions for words in different languages.  **Translation behavior:** - Fields translated to `definition_language`: definition, notes, etymology, part_of_speech, usage_level, dialect - Fields that remain in `word_language`: word, synonyms, pronunciation, plural, related_words, examples (with translations in parentheses when languages differ) - Fields always in English (strict enums): gender (\"masculine\", \"feminine\", \"neuter\", \"common\"), temporal_trend (\"increasing\", \"stable\", \"decreasing\") 
 pub async fn translate_dictionary(configuration: &configuration::Configuration, translate_dictionary_request: models::TranslateDictionaryRequest) -> Result<models::TranslateDictionary200Response, Error<TranslateDictionaryError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_translate_dictionary_request = translate_dictionary_request;
+    let p_body_translate_dictionary_request = translate_dictionary_request;
 
     let uri_str = format!("{}/api/dictionary", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -238,7 +238,7 @@ pub async fn translate_dictionary(configuration: &configuration::Configuration, 
     if let Some(ref token) = configuration.bearer_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    req_builder = req_builder.json(&p_translate_dictionary_request);
+    req_builder = req_builder.json(&p_body_translate_dictionary_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
@@ -268,16 +268,16 @@ pub async fn translate_dictionary(configuration: &configuration::Configuration, 
 /// Returns a list of languages supported by the translation API.  The response includes language codes, names, and whether each language supports formality settings. 
 pub async fn translate_list_languages(configuration: &configuration::Configuration, r#type: Option<&str>, locale: Option<&str>) -> Result<Vec<models::TranslateListLanguages200ResponseInner>, Error<TranslateListLanguagesError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_type = r#type;
-    let p_locale = locale;
+    let p_query_type = r#type;
+    let p_query_locale = locale;
 
     let uri_str = format!("{}/api/list-languages", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    if let Some(ref param_value) = p_type {
+    if let Some(ref param_value) = p_query_type {
         req_builder = req_builder.query(&[("type", &param_value.to_string())]);
     }
-    if let Some(ref param_value) = p_locale {
+    if let Some(ref param_value) = p_query_locale {
         req_builder = req_builder.query(&[("locale", &param_value.to_string())]);
     }
     if let Some(ref user_agent) = configuration.user_agent {
@@ -315,14 +315,14 @@ pub async fn translate_list_languages(configuration: &configuration::Configurati
 /// Converts non-Latin script text to Latin script (romanization/transliteration). Uses standardized romanization styles for each language: Hepburn for Japanese, Pinyin for Chinese, ALA-LC for Arabic, etc.
 pub async fn translate_romanize(configuration: &configuration::Configuration, text: &str, language: &str) -> Result<models::TranslateRomanize200Response, Error<TranslateRomanizeError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_text = text;
-    let p_language = language;
+    let p_query_text = text;
+    let p_query_language = language;
 
     let uri_str = format!("{}/api/romanize", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("text", &p_text.to_string())]);
-    req_builder = req_builder.query(&[("language", &p_language.to_string())]);
+    req_builder = req_builder.query(&[("text", &p_query_text.to_string())]);
+    req_builder = req_builder.query(&[("language", &p_query_language.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
@@ -358,10 +358,10 @@ pub async fn translate_romanize(configuration: &configuration::Configuration, te
 /// Provides detailed linguistic insights and alternatives for translated text. The API identifies 3-5 key words or phrases in the translated text that have meaningful alternative expressions, and returns:  1. A marked version of the translation with insight markers 2. Alternative expressions for each identified word/phrase 3. Brief explanations for each alternative in the target explanation language 4. Type labels categorizing each insight (e.g., \"Lexical choice\", \"Cultural reference\") 
 pub async fn translate_word_insights(configuration: &configuration::Configuration, original_text: &str, translated_text: &str, target_explanation_language: Option<&str>, translation_options: Option<&str>) -> Result<models::TranslateWordInsights200Response, Error<TranslateWordInsightsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_original_text = original_text;
-    let p_translated_text = translated_text;
-    let p_target_explanation_language = target_explanation_language;
-    let p_translation_options = translation_options;
+    let p_form_original_text = original_text;
+    let p_form_translated_text = translated_text;
+    let p_form_target_explanation_language = target_explanation_language;
+    let p_form_translation_options = translation_options;
 
     let uri_str = format!("{}/api/word-insights", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -373,12 +373,12 @@ pub async fn translate_word_insights(configuration: &configuration::Configuratio
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
     let mut multipart_form = reqwest::multipart::Form::new();
-    multipart_form = multipart_form.text("original_text", p_original_text.to_string());
-    multipart_form = multipart_form.text("translated_text", p_translated_text.to_string());
-    if let Some(param_value) = p_target_explanation_language {
+    multipart_form = multipart_form.text("original_text", p_form_original_text.to_string());
+    multipart_form = multipart_form.text("translated_text", p_form_translated_text.to_string());
+    if let Some(param_value) = p_form_target_explanation_language {
         multipart_form = multipart_form.text("target_explanation_language", param_value.to_string());
     }
-    if let Some(param_value) = p_translation_options {
+    if let Some(param_value) = p_form_translation_options {
         multipart_form = multipart_form.text("translation_options", param_value.to_string());
     }
     req_builder = req_builder.multipart(multipart_form);

@@ -15,8 +15,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct SearchObjectImage {
     /// URL of the image
-    #[serde(rename = "url")]
-    pub url: String,
+    #[serde(rename = "url", skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
     /// hight of the image
     #[serde(rename = "height", skip_serializing_if = "Option::is_none")]
     pub height: Option<i32>,
@@ -27,9 +27,9 @@ pub struct SearchObjectImage {
 
 impl SearchObjectImage {
     /// An image that is linked to the search result.
-    pub fn new(url: String) -> SearchObjectImage {
+    pub fn new() -> SearchObjectImage {
         SearchObjectImage {
-            url,
+            url: None,
             height: None,
             width: None,
         }

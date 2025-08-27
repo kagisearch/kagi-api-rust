@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**url** | **String** | URL of the thumbnail | 
+**url** | Option<**String**> | URL of the thumbnail | [optional]
 **height** | Option<**i32**> | hight of the thumbnail | [optional]
 **width** | Option<**i32**> | width of the thumbnail | [optional]
 

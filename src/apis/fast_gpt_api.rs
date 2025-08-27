@@ -27,7 +27,7 @@ pub enum FastGptError {
 /// FastGPT is a Kagi service using powerful LLMs to answer user queries running a full search engine underneath. Think ChatGPT, but on steroids and faster! You can try the web app here.
 pub async fn fast_gpt(configuration: &configuration::Configuration, fast_gpt_request: models::FastGptRequest) -> Result<models::FastGpt200Response, Error<FastGptError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_fast_gpt_request = fast_gpt_request;
+    let p_body_fast_gpt_request = fast_gpt_request;
 
     let uri_str = format!("{}/fastgpt", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -43,7 +43,7 @@ pub async fn fast_gpt(configuration: &configuration::Configuration, fast_gpt_req
         };
         req_builder = req_builder.header("Authorization", value);
     };
-    req_builder = req_builder.json(&p_fast_gpt_request);
+    req_builder = req_builder.json(&p_body_fast_gpt_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;

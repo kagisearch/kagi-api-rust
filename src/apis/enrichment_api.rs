@@ -26,13 +26,13 @@ pub enum EnrichSearchError {
 
 pub async fn enrich_search(configuration: &configuration::Configuration, q: &str, r#type: &str) -> Result<models::EnrichSearch200Response, Error<EnrichSearchError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_q = q;
-    let p_type = r#type;
+    let p_query_q = q;
+    let p_path_type = r#type;
 
-    let uri_str = format!("{}/enrich/{type}", configuration.base_path, type=crate::apis::urlencode(p_type));
+    let uri_str = format!("{}/enrich/{type}", configuration.base_path, type=crate::apis::urlencode(p_path_type));
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    req_builder = req_builder.query(&[("q", &p_q.to_string())]);
+    req_builder = req_builder.query(&[("q", &p_query_q.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

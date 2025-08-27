@@ -11,17 +11,22 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
+/// FastGpt200ResponseData : The response object which contains the output and token count for the query.
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FastGpt200ResponseData {
+    /// The actual response to the query.
     #[serde(rename = "output", skip_serializing_if = "Option::is_none")]
     pub output: Option<String>,
+    /// How many tokens were used to generate the response.
     #[serde(rename = "tokens", skip_serializing_if = "Option::is_none")]
     pub tokens: Option<i32>,
+    /// A collection of search results that are related to the query.
     #[serde(rename = "references", skip_serializing_if = "Option::is_none")]
     pub references: Option<Vec<models::SearchObject>>,
 }
 
 impl FastGpt200ResponseData {
+    /// The response object which contains the output and token count for the query.
     pub fn new() -> FastGpt200ResponseData {
         FastGpt200ResponseData {
             output: None,

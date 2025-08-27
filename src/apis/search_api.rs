@@ -26,7 +26,7 @@ pub enum SearchError {
 
 pub async fn search(configuration: &configuration::Configuration, search_request: models::SearchRequest) -> Result<models::Search200Response, Error<SearchError>> {
     // add a prefix to parameters to efficiently prevent name collisions
-    let p_search_request = search_request;
+    let p_body_search_request = search_request;
 
     let uri_str = format!("{}/search", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::POST, &uri_str);
@@ -42,7 +42,7 @@ pub async fn search(configuration: &configuration::Configuration, search_request
         };
         req_builder = req_builder.header("Authorization", value);
     };
-    req_builder = req_builder.json(&p_search_request);
+    req_builder = req_builder.json(&p_body_search_request);
 
     let req = req_builder.build()?;
     let resp = configuration.client.execute(req).await?;
